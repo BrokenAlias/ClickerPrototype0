@@ -1,7 +1,7 @@
 extends Node
 
 
-const ITEM_DISPLAY = preload("res://resources/items/package.tres")
+const ITEM_DISPLAY = preload("res://scenes/item_display.tscn")
 
 
 @onready var money_label: Label = $Control/MoneyLabel
