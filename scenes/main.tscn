@@ -31,6 +31,16 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_o5qli")
 
+[node name="ConveyorItemsContainer" type="Node2D" parent="Control"]
+
+[node name="SpawnMarker" type="Marker2D" parent="Control/ConveyorItemsContainer"]
+position = Vector2(203, 718)
+gizmo_extents = 25.0
+
+[node name="SoldHorizonlalMarker" type="Marker2D" parent="Control/ConveyorItemsContainer"]
+position = Vector2(1711, 712)
+gizmo_extents = 25.0
+
 [node name="Button" type="Button" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
@@ -94,6 +104,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Fix!"
+
+[node name="BreakTimer" type="Timer" parent="Control/ValveFixMinigame"]
+autostart = true
 
 [node name="MinigameOverlays" type="Control" parent="Control"]
 layout_mode = 1
@@ -233,6 +246,14 @@ grow_vertical = 2
 text = "Lecy todo
 "
 
+[node name="MoneyLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "Money: 0"
+
+[connection signal="pressed" from="Control/Button" to="." method="_request_product_click"]
 [connection signal="pressed" from="Control/PipesFixBUtton" to="." method="_on_pipes_fix_b_utton_pressed"]
 [connection signal="pressed" from="Control/FuseMInigame" to="." method="_on_fuse_m_inigame_pressed"]
 [connection signal="pressed" from="Control/ValveFixMinigame" to="." method="_on_valve_fix_minigame_pressed"]
