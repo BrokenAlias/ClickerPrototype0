@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpxb6kag1fyti"]
+[gd_scene load_steps=10 format=3 uid="uid://bpxb6kag1fyti"]
 
 [ext_resource type="Script" uid="uid://doy4m1udqhewr" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://ckia8crwcqkgb" path="res://assets/bg.png" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://bn27wp8oa7n17" path="res://scripts/valve_minigame.gd" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://dcki3wjgc0t0l" path="res://assets/valve.png" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://c8gsgqvd17i6y" path="res://scenes/electicity.gd" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://cabk0f1kpi4ma" path="res://scenes/pipes.gd" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://exncpe3vi01h" path="res://leak.tscn" id="6_o6xl0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
 bg_color = Color(0, 0, 0, 1)
@@ -13,6 +15,8 @@ border_width_top = 8
 border_width_right = 8
 border_width_bottom = 8
 border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o6xl0"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0wfyh")
@@ -120,6 +124,7 @@ theme_override_font_sizes/font_size = 32
 text = "Click!"
 
 [node name="WireFixBUtton" type="Button" parent="Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -288,7 +293,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Pipes" type="Panel" parent="Control/MinigameOverlays"]
-visible = false
 custom_minimum_size = Vector2(1440, 810)
 layout_mode = 1
 anchors_preset = 8
@@ -304,20 +308,43 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
 
-[node name="Label" type="Label" parent="Control/MinigameOverlays/Pipes"]
+[node name="Control" type="Control" parent="Control/MinigameOverlays/Pipes"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -94.0
+offset_top = -77.0
+offset_right = 94.0
+offset_bottom = 77.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Pipes todo"
+script = ExtResource("5_tefeu")
+leak_scene = ExtResource("6_o6xl0")
+
+[node name="PipeArea" type="ColorRect" parent="Control/MinigameOverlays/Pipes/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -319.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 0, 1)
+
+[node name="PipePressure" type="ProgressBar" parent="Control/MinigameOverlays/Pipes/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 17.976582, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/background = SubResource("StyleBoxEmpty_o6xl0")
 
 [node name="Electicity" type="Panel" parent="Control/MinigameOverlays"]
 visible = false
