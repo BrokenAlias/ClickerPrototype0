@@ -107,7 +107,17 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Click!"
 
-[node name="PipesFixBUtton" type="Button" parent="Control"]
+[node name="FixButtons" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Pipes" type="Button" parent="Control/FixButtons"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -123,24 +133,8 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Click!"
 
-[node name="WireFixBUtton" type="Button" parent="Control"]
+[node name="Fuse" type="Button" parent="Control/FixButtons"]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -937.0
-offset_top = 194.0
-offset_right = -841.0
-offset_bottom = 304.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "Click!"
-
-[node name="FuseMInigame" type="Button" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -156,7 +150,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Fix!"
 
-[node name="ValveFixMinigame" type="Button" parent="Control"]
+[node name="Valve" type="Button" parent="Control/FixButtons"]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -173,7 +167,22 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Fix!"
 
-[node name="BreakTimer" type="Timer" parent="Control/ValveFixMinigame"]
+[node name="Electricity" type="Button" parent="Control/FixButtons"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -937.0
+offset_top = 194.0
+offset_right = -841.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Click!"
 
 [node name="MinigameOverlays" type="Control" parent="Control"]
 layout_mode = 1
@@ -183,6 +192,58 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Pipes" type="Panel" parent="Control/MinigameOverlays"]
+visible = false
+custom_minimum_size = Vector2(1440, 810)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -405.0
+offset_right = 720.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
+
+[node name="Control" type="Control" parent="Control/MinigameOverlays/Pipes"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.5
+offset_top = -393.5
+offset_right = 175.5
+offset_bottom = 393.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_tefeu")
+leak_scene = ExtResource("6_o6xl0")
+
+[node name="PipeArea" type="ColorRect" parent="Control/MinigameOverlays/Pipes/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 0, 1)
+
+[node name="PipePressure" type="ProgressBar" parent="Control/MinigameOverlays/Pipes/Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 17.976582, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/background = SubResource("StyleBoxEmpty_o6xl0")
 
 [node name="Fuse" type="Panel" parent="Control/MinigameOverlays"]
 visible = false
@@ -292,58 +353,7 @@ offset_bottom = -80.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Pipes" type="Panel" parent="Control/MinigameOverlays"]
-custom_minimum_size = Vector2(1440, 810)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -480.0
-offset_top = -270.0
-offset_right = 480.0
-offset_bottom = 270.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
-
-[node name="Control" type="Control" parent="Control/MinigameOverlays/Pipes"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -175.5
-offset_top = -393.5
-offset_right = 175.5
-offset_bottom = 393.5
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_tefeu")
-leak_scene = ExtResource("6_o6xl0")
-
-[node name="PipeArea" type="ColorRect" parent="Control/MinigameOverlays/Pipes/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 0, 1)
-
-[node name="PipePressure" type="ProgressBar" parent="Control/MinigameOverlays/Pipes/Control"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 34.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 17.976582, 1)
-theme_override_font_sizes/font_size = 24
-theme_override_styles/background = SubResource("StyleBoxEmpty_o6xl0")
-
-[node name="Electicity" type="Panel" parent="Control/MinigameOverlays"]
+[node name="Electricity" type="Panel" parent="Control/MinigameOverlays"]
 visible = false
 custom_minimum_size = Vector2(1440, 810)
 layout_mode = 1
@@ -361,7 +371,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
 script = ExtResource("5_tbgi4")
 
-[node name="LeftWires" type="VBoxContainer" parent="Control/MinigameOverlays/Electicity"]
+[node name="LeftWires" type="VBoxContainer" parent="Control/MinigameOverlays/Electricity"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -373,25 +383,25 @@ offset_bottom = 82.0
 grow_vertical = 2
 theme_override_constants/separation = 129
 
-[node name="BlueWire1" type="ColorRect" parent="Control/MinigameOverlays/Electicity/LeftWires" groups=["connection_points"]]
+[node name="BlueWire1" type="ColorRect" parent="Control/MinigameOverlays/Electricity/LeftWires" groups=["connection_points"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 color = Color(0, 0, 1, 1)
 
-[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electicity/LeftWires/BlueWire1"]
+[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electricity/LeftWires/BlueWire1"]
 position = Vector2(-495, -260.5)
 default_color = Color(0, 0, 1, 1)
 
-[node name="RedWire1" type="ColorRect" parent="Control/MinigameOverlays/Electicity/LeftWires" groups=["connection_points"]]
+[node name="RedWire1" type="ColorRect" parent="Control/MinigameOverlays/Electricity/LeftWires" groups=["connection_points"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electicity/LeftWires/RedWire1"]
+[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electricity/LeftWires/RedWire1"]
 position = Vector2(-495, -260.5)
 default_color = Color(1, 0, 0, 1)
 
-[node name="RightWires" type="VBoxContainer" parent="Control/MinigameOverlays/Electicity"]
+[node name="RightWires" type="VBoxContainer" parent="Control/MinigameOverlays/Electricity"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -403,17 +413,17 @@ offset_bottom = 145.0
 grow_vertical = 2
 theme_override_constants/separation = 129
 
-[node name="RedWire2" type="ColorRect" parent="Control/MinigameOverlays/Electicity/RightWires" groups=["connection_points"]]
+[node name="RedWire2" type="ColorRect" parent="Control/MinigameOverlays/Electricity/RightWires" groups=["connection_points"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 color = Color(1, 0, 0, 1)
 
-[node name="BlueWire2" type="ColorRect" parent="Control/MinigameOverlays/Electicity/RightWires" groups=["connection_points"]]
+[node name="BlueWire2" type="ColorRect" parent="Control/MinigameOverlays/Electricity/RightWires" groups=["connection_points"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 color = Color(0, 0, 1, 1)
 
-[node name="Label" type="Label" parent="Control/MinigameOverlays/Electicity"]
+[node name="Label" type="Label" parent="Control/MinigameOverlays/Electricity"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -429,7 +439,7 @@ grow_vertical = 2
 text = "Lecy todo
 "
 
-[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electicity"]
+[node name="Line2D" type="Line2D" parent="Control/MinigameOverlays/Electricity"]
 position = Vector2(-495, -260.5)
 
 [node name="MoneyLabel" type="Label" parent="Control"]
@@ -440,10 +450,5 @@ theme_override_font_sizes/font_size = 32
 text = "Money: 0"
 
 [connection signal="pressed" from="Control/Button" to="." method="_request_product_click"]
-[connection signal="pressed" from="Control/PipesFixBUtton" to="." method="_on_pipes_fix_b_utton_pressed"]
-[connection signal="pressed" from="Control/WireFixBUtton" to="." method="_on_wire_fix_b_utton_pressed"]
-[connection signal="pressed" from="Control/FuseMInigame" to="." method="_on_fuse_m_inigame_pressed"]
-[connection signal="pressed" from="Control/ValveFixMinigame" to="." method="_on_valve_fix_minigame_pressed"]
-[connection signal="timeout" from="Control/ValveFixMinigame/BreakTimer" to="." method="_on_valve_break_timer_timeout"]
 [connection signal="button_down" from="Control/MinigameOverlays/Valve/Center/Sprite/TextureButton" to="Control/MinigameOverlays/Valve" method="_on_texture_button_button_down"]
 [connection signal="button_up" from="Control/MinigameOverlays/Valve/Center/Sprite/TextureButton" to="Control/MinigameOverlays/Valve" method="_on_texture_button_button_up"]

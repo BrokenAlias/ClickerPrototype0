@@ -9,13 +9,9 @@ const ITEM_DISPLAY = preload("res://scenes/item_display.tscn")
 @onready var conveyor_spawn_marker: Marker2D = $Control/ConveyorItemsContainer/SpawnMarker
 @onready var conveyor_sold_marker: Marker2D = $Control/ConveyorItemsContainer/SoldHorizonlalMarker
 
-@onready var break_timers: Array[Timer] = [
-	$Control/ValveFixMinigame/BreakTimer,
-]
-
-@onready var fix_minigame_buttons: Dictionary[String, Button] = {
-	"Valve": $Control/ValveFixMinigame,
-	"Electicity": $Control/WireFixBUtton,
+@onready var minigame_states: Dictionary[String, MinigameState] = {
+	"Valve": MinigameState.new(self, "Valve", -1.0),
+	"Electricity": MinigameState.new(self, "Electricity", -1.0),
 }
 
 var money: int = 0
@@ -30,26 +26,27 @@ var conveyor_items: Array[ItemDisplay] = []
 func _ready() -> void:
 	show_overlay("")
 	
-	for fix_minigame_button: Button in fix_minigame_buttons.values():
-		fix_minigame_button.hide()
-	
-	for break_timer: Timer in break_timers:
-		break_timer.wait_time = randf_range(5.0, 10.0)
-		break_timer.start()
-	
-	# give random break times
-
-
-func show_overlay(overlay_name: String) -> void:
-	for child in $Control/MinigameOverlays.get_children():
-		child.visible = (child.name == overlay_name)
+	for minigame_state: MinigameState in minigame_states.values():
+		minigame_state.fix_button.button_down.connect(
+			func() -> void:
+				show_overlay(minigame_state.id)
+		)
+		fix_minigame(minigame_state.id)
 
 
 func _process(delta: float) -> void:
+	for minigame_state: MinigameState in minigame_states.values():
+		if minigame_state.time_until_broken > 0.0:
+			minigame_state.time_until_broken -= delta
+			if minigame_state.time_until_broken <= 0.0:
+				minigame_state.time_until_broken = 0.0
+				minigame_state.fix_button.show()
+	
 	# Close any minigame UI
 	if Input.is_action_just_pressed("leave_minigame"):
 		show_overlay("")
 	
+	# Handle conveyoritems
 	for conveyor_item in conveyor_items:
 		conveyor_item.position.x += 400.0 * delta
 		
@@ -65,25 +62,22 @@ func _process(delta: float) -> void:
 		resource_pressure -= delta * 0.1 # 10 seconds (delta = 1 second)
 	else:
 		resource_pressure = 1.0
+	
+	if is_broken("Electricity"):
+		resource_charge -= delta * 0.1 # 10 seconds (delta = 1 second)
+	else:
+		resource_charge = 1.0
+
+
+func show_overlay(minigame: String) -> void:
+	for minigame_name in minigame_states.keys():
+		var minigame_state: MinigameState = minigame_states[minigame_name]
+		minigame_state.minigame_overlay.visible = (minigame == minigame_name)
 
 
 func is_broken(minigame: String) -> bool:
-	return fix_minigame_buttons.get(minigame, null).visible
+	return minigame_states.get(minigame, null).fix_button.visible
 
-
-func _on_fuse_m_inigame_pressed() -> void:
-	show_overlay("Fuse")
-
-
-func _on_pipes_fix_b_utton_pressed() -> void:
-	show_overlay("Pipes")
-
-
-func _on_valve_fix_minigame_pressed() -> void:
-	show_overlay("Valve")
-
-func _on_wire_fix_b_utton_pressed() -> void:
-	show_overlay("Electicity")
 
 func _request_product_click() -> void:
 	var enough_resources: bool = (
@@ -111,8 +105,22 @@ func sell_conveyor_item(item_display: ItemDisplay) -> void:
 	money += 10
 
 
-func _on_valve_break_timer_timeout() -> void:
-	fix_minigame_buttons.get("Valve").show()
-	fix_minigame_buttons.get("Electicity").show()
+func fix_minigame(id: String) -> void:
+	var minigame_state: MinigameState = minigame_states.get(id, null)
+	minigame_state.fix_button.hide()
+	minigame_state.time_until_broken = randf_range(5.0, 10.0)
+	show_overlay("")
+
+
+class MinigameState:
+	var id: String = ""
+	var time_until_broken: float = 0.0
+	var minigame_overlay: Control = null
+	var fix_button: Button = null
 	
-	
+	func _init(parent: Node, p_id: String, p_time_until_broken: float):
+		id = p_id
+		time_until_broken = p_time_until_broken
+		
+		minigame_overlay = parent.get_node("Control/MinigameOverlays/%s" % p_id)
+		fix_button = parent.get_node("Control/FixButtons/%s" % p_id)

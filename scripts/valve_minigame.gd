@@ -17,6 +17,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if visible:
+		progress_bar.value = progress
+		
 		if is_held_down:
 			center.look_at(get_global_mouse_position())
 			
@@ -25,12 +27,14 @@ func _process(delta: float) -> void:
 			progress += frame_angle_diff * 0.01
 			
 			last_frame_rotation = center.rotation
-			
-			progress_bar.value = progress
 		
 		if progress > 1.0: # Completed
-			main.fix_minigame_buttons.get("Valve").hide() # Hide fix button
-			hide() # Hide UI
+			main.fix_minigame(self.name)
+	else:
+		center.rotation = 0.0
+		is_held_down = false
+		last_frame_rotation = 0.0
+		progress = 0.0
 
 
 func _on_texture_button_button_down() -> void:
