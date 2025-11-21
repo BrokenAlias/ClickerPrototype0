@@ -11,8 +11,6 @@ var completed_wires := {}
 func _ready() -> void:
 	for cp in get_tree().get_nodes_in_group("connection_points"):
 		completed_wires[cp.color] = false
-		
-
 
 
 func _input(event):
@@ -64,6 +62,5 @@ func _check_if_game_complete():
 	for color in completed_wires.keys():
 		if completed_wires[color] == false:
 			return # Not done yet
-		main.fix_minigame_buttons.get("Electicity").hide()
-		hide()
+		main.fix_minigame(self.name)
 	
