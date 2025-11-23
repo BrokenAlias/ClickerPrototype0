@@ -7,6 +7,12 @@ var item: Item
 @onready var icon: Sprite2D = $Icon
 
 
+func clear_item() -> void:
+	item = null
+	
+	icon.texture = null
+
+
 func set_item(new_item: Item) -> void:
 	item = new_item
 	

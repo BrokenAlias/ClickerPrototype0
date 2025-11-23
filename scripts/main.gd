@@ -32,6 +32,8 @@ func _ready() -> void:
 				show_overlay(minigame_state.id)
 		)
 		fix_minigame(minigame_state.id)
+	
+	($PhysicsItem as PhysicsItem).set_item(load("res://resources/items/package.tres") as Item)
 
 
 func _process(delta: float) -> void:
