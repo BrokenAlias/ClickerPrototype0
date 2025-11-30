@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://bn27wp8oa7n17" path="res://scripts/valve_minigame.gd" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://dcki3wjgc0t0l" path="res://assets/valve.png" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://c8gsgqvd17i6y" path="res://scripts/electicity.gd" id="5_tbgi4"]
-[ext_resource type="Script" uid="uid://cabk0f1kpi4ma" path="res://scripts/pipes.gd" id="5_tefeu"]
-[ext_resource type="PackedScene" uid="uid://exncpe3vi01h" path="res://leak.tscn" id="6_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://n2hty4u6be6f" path="res://scenes/components/physics_item.tscn" id="8_tipki"]
+[ext_resource type="Script" path="res://scripts/pipes.gd" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://exncpe3vi01h" path="res://scripts/scenes/leak.tscn" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://n2hty4u6be6f" path="res://scripts/scenes/components/physics_item.tscn" id="8_tipki"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
 bg_color = Color(0, 0, 0, 1)
