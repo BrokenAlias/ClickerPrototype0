@@ -19,7 +19,7 @@ func _input(event):
 			if event.pressed:
 				var pos = event.position
 				var cp = get_connection_point_at_pos(pos)
-				if cp:
+				if cp and cp.get_parent().name == "LeftWires":
 					startPoint = cp
 					startPointLine = cp.get_node("Line2D")
 					drawing = true
@@ -39,7 +39,6 @@ func _input(event):
 							startPointLine.set_point_position(1, cp.get_global_rect().get_center())
 							completed_wires[startPoint.color] = true
 							print("Connection correct!")
-							
 							_check_if_game_complete()
 					else:
 						 # Cancel connection if incorrect
@@ -61,5 +60,13 @@ func _check_if_game_complete():
 	for color in completed_wires.keys():
 		if completed_wires[color] == false:
 			return # Not done yet
+		reset()
 		main.fix_minigame(self.name)
-	
+		
+func reset():
+	for cp in get_tree().get_nodes_in_group("connection_points"):
+		var line_node = cp.get_node_or_null("Line2D")
+		if line_node:
+			line_node.clear_points()
+	for color in completed_wires.keys():
+		completed_wires[color] = false

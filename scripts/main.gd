@@ -1,3 +1,4 @@
+class_name Main
 extends Node
 
 
@@ -78,7 +79,7 @@ func _process(delta: float) -> void:
 	
 		
 	if is_broken("Pipes"):
-		resource_pressure -= delta * 0.2 # 10 seconds (delta = 1 second)
+		resource_pressure -= delta * 0.1 # 10 seconds (delta = 1 second)
 	else:
 		resource_pressure = 1.0
 	
