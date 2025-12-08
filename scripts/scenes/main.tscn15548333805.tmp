@@ -361,7 +361,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Electricity" type="Panel" parent="Control/MinigameOverlays"]
-visible = false
 custom_minimum_size = Vector2(1440, 810)
 layout_mode = 1
 anchors_preset = 8

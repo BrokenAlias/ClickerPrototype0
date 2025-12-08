@@ -1,72 +1,48 @@
+class_name MinigameElectricity
 extends Panel
 
-@onready var main: Node = $"../../.."
 
-var startPoint = null
-var startPointLine: Line2D = null
-@onready var line: Line2D = $Line2D
-var drawing = false
-var completed_wires := {}
+const NODE_PAIR_COUNT: int = 3
+const WIRE_PAIR = preload("uid://xxtcwl4dtb0y")
+
+var wire_pairs: Array[MinigameElectiricity_WirePair] = []
+
+@onready var main: Main = owner
+
 
 func _ready() -> void:
-	for cp in get_tree().get_nodes_in_group("connection_points"):
-		completed_wires[cp.color] = false
+	pass
 
 
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				var pos = event.position
-				var cp = get_connection_point_at_pos(pos)
-				if cp and cp.get_parent().name == "LeftWires":
-					startPoint = cp
-					startPointLine = cp.get_node("Line2D")
-					drawing = true
-					startPointLine.global_position = Vector2.ZERO
-					startPointLine.clear_points()
-					startPointLine.add_point(startPoint.get_global_rect().get_center())
-					startPointLine.add_point(pos)
-			else:
-				if drawing:
-					var pos = event.global_position
-					var cp = get_connection_point_at_pos(pos)
-					if cp and cp != startPoint and cp.color == startPoint.color:
-						# Correct connection made, snap line endpoint
-						startPointLine.set_point_position(1, cp.get_global_rect().get_center())
-						if cp and cp != startPoint and cp.color == startPoint.color:
-							# Correct connection made, snap line endpoint
-							startPointLine.set_point_position(1, cp.get_global_rect().get_center())
-							completed_wires[startPoint.color] = true
-							print("Connection correct!")
-							_check_if_game_complete()
-					else:
-						 # Cancel connection if incorrect
-						startPointLine.clear_points()
-					drawing = false
-					startPoint = null
-
-	elif event is InputEventMouseMotion and drawing:
-		startPointLine.set_point_position(1, event.position)
-
-# Helper to find ColorRect at mouse pos
-func get_connection_point_at_pos(pos):
-	for cp in get_tree().get_nodes_in_group("connection_points"):
-		if cp.get_global_rect().has_point(pos):
-			return cp
-	return null
-	
-func _check_if_game_complete():
-	for color in completed_wires.keys():
-		if completed_wires[color] == false:
-			return # Not done yet
-		reset()
-		main.fix_minigame(self.name)
+func was_broken() -> void:
+	var random_y_indices_for_right_column: Array = range(NODE_PAIR_COUNT)
+	random_y_indices_for_right_column.shuffle() # Randomize the end postions for the right column
+	for i: int in range(NODE_PAIR_COUNT):
+		var wp := WIRE_PAIR.instantiate() as MinigameElectiricity_WirePair
+		wire_pairs.push_back(wp)
+		add_child(wp)
 		
-func reset():
-	for cp in get_tree().get_nodes_in_group("connection_points"):
-		var line_node = cp.get_node_or_null("Line2D")
-		if line_node:
-			line_node.clear_points()
-	for color in completed_wires.keys():
-		completed_wires[color] = false
+		wp.global_position = Vector2.ZERO
+		wp.set_color(Color(
+			randf_range(0.0, 1.0),
+			randf_range(0.0, 1.0),
+			randf_range(0.0, 1.0),
+		))
+		
+		var window_rect: Rect2 = get_global_rect()
+		var y_increment: float = window_rect.size.y / (NODE_PAIR_COUNT + 1)
+		
+		wp.set_node_y_left(window_rect.position.y + y_increment * (i + 1)) # i increments linearly
+		wp.set_node_y_right(window_rect.position.y + y_increment * (random_y_indices_for_right_column[i] + 1))
+		
+
+func _process(_delta: float) -> void:
+	var all_wires_connected: bool = wire_pairs.all(
+			func(wp: MinigameElectiricity_WirePair) -> bool:
+				return wp.is_connected
+	)
+	
+	if all_wires_connected:
+		for wp in wire_pairs:
+			wp.queue_free()
+		main.fix_minigame("Electricity")

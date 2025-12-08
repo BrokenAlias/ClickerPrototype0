@@ -361,7 +361,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Electricity" type="Panel" parent="Control/MinigameOverlays"]
-visible = false
 custom_minimum_size = Vector2(1440, 810)
 layout_mode = 1
 anchors_preset = 8
@@ -406,4 +405,3 @@ shape = SubResource("RectangleShape2D_85g3d")
 [connection signal="pressed" from="Control/Button" to="." method="_request_product_click"]
 [connection signal="button_down" from="Control/MinigameOverlays/Valve/Center/Sprite/TextureButton" to="Control/MinigameOverlays/Valve" method="_on_texture_button_button_down"]
 [connection signal="button_up" from="Control/MinigameOverlays/Valve/Center/Sprite/TextureButton" to="Control/MinigameOverlays/Valve" method="_on_texture_button_button_up"]
-[connection signal="visibility_changed" from="Control/MinigameOverlays/Electricity" to="Control/MinigameOverlays/Electricity" method="_on_visibility_changed"]

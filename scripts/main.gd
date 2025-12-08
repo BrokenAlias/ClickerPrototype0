@@ -58,7 +58,10 @@ func _process(delta: float) -> void:
 			if minigame_state.time_until_broken <= 0.0:
 				minigame_state.time_until_broken = 0.0
 				minigame_state.fix_button.show()
-	
+				
+				if minigame_state.minigame_overlay.has_method(&"was_broken"):
+					minigame_state.minigame_overlay.was_broken()
+	 
 	# Close any minigame UI
 	if Input.is_action_just_pressed("leave_minigame"):
 		show_overlay("")

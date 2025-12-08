@@ -17,7 +17,7 @@ func _ready():
 	bar.value = 0
 	connect("leak_fixed", Callable(self, "_on_leak_fixed"))
 
-	
+
 func _process(delta: float) -> void:
 	can_spawn = main.is_broken("Pipes")
 	
