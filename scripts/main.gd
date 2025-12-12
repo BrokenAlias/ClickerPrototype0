@@ -55,12 +55,14 @@ func _process(delta: float) -> void:
 	for minigame_state: MinigameState in minigame_states.values():
 		if minigame_state.time_until_broken > 0.0:
 			minigame_state.time_until_broken -= delta
+			
 			if minigame_state.time_until_broken <= 0.0:
 				minigame_state.time_until_broken = 0.0
 				minigame_state.fix_button.show()
 				
 				if minigame_state.minigame_overlay.has_method(&"was_broken"):
 					minigame_state.minigame_overlay.was_broken()
+					
 	 
 	# Close any minigame UI
 	if Input.is_action_just_pressed("leave_minigame"):
@@ -126,12 +128,12 @@ func _request_product_click() -> void:
 		and resource_charge > 0.025
 	)
 	
-	resource_pressure += PRESSURE_INCREASE_PER_CLICK
-	resource_pressure = clamp(resource_pressure, 0.0, 1.0)
+	
 	
 	if enough_resources:
 		# Subtract resources
-		resource_pressure -= 0.1
+		resource_pressure += PRESSURE_INCREASE_PER_CLICK
+		resource_pressure = clamp(resource_pressure, 0.0, 1.0)
 		resource_charge -= 0.025
 		
 		# Spawn

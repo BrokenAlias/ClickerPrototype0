@@ -1,12 +1,10 @@
 extends Node2D
 
-@export var max_size: float = 150.0
-@export var min_size: float = 10.0
-@export var shrink_amount: float = 25.0
-@export var regrow_speed: float = 25.0
-
+var max_size: float = 100.0
+var min_size: float = 20.0
+var shrink_amount: float = 40.0
+var regrow_speed: float = 60.0
 var current_size: float
-var hits: int = 0
 
 @onready var rect = $SpriteRect
 
@@ -29,10 +27,9 @@ func _on_sprite_rect_gui_input(event: InputEvent) -> void:
 		shrink()
 		
 func shrink():
-	hits += 1 
 	current_size = max(min_size, current_size - shrink_amount)
 	rect.size = Vector2(current_size, current_size)
 	
-	if hits >= 3:
+	if current_size == min_size:
 		queue_free()
 		get_parent().emit_signal("leak_fixed")

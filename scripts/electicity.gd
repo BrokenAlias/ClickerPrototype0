@@ -34,15 +34,18 @@ func was_broken() -> void:
 		
 		wp.set_node_y_left(window_rect.position.y + y_increment * (i + 1)) # i increments linearly
 		wp.set_node_y_right(window_rect.position.y + y_increment * (random_y_indices_for_right_column[i] + 1))
-		
+
 
 func _process(_delta: float) -> void:
-	var all_wires_connected: bool = wire_pairs.all(
-			func(wp: MinigameElectiricity_WirePair) -> bool:
-				return wp.is_connected
-	)
-	
-	if all_wires_connected:
-		for wp in wire_pairs:
-			wp.queue_free()
-		main.fix_minigame("Electricity")
+	if main.is_broken("Electricity"):
+		var all_wires_connected: bool = wire_pairs.all(
+				func(wp: MinigameElectiricity_WirePair) -> bool:
+					return wp.is_connected
+		)
+		
+		if all_wires_connected:
+			for wp in wire_pairs:
+				wp.queue_free()
+			wire_pairs.clear()
+			
+			main.fix_minigame("Electricity")
